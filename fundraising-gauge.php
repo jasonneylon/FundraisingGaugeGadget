@@ -8,16 +8,20 @@ Version: 1
 Author URI: http://jasonneylon.wordpress.com
 */
  
+
 function percentage_raised() {
-  return "60%";
+  $money_raised = intval(get_option("fg_money_raised"));
+  $percentage = intval($money_raised / 75000 * 100);
+  return $percentage . "%";
 }
 
 function money_raised() {
-  return "£" . number_format (30000);
+  $money_raised = intval(get_option("fg_money_raised"));
+  return "£" . number_format ($money_raised);
 }
 
 function investors() {
-  return "50";
+  return intval(get_option("fg_investors"));;
 }
 
 function show_gauge() {
