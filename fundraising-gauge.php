@@ -13,7 +13,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   public function __construct() {
     parent::__construct(
       'fundraising_gauge_widget', // Base ID
-      'Fundraising Gauge Widget', // Name
+      'Fundraising Gauge', // Name
       array( 'description' => __( 'Fundraising Gauge', 'text_domain' ), ) // Args
     );
   }
