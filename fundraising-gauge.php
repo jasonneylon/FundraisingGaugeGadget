@@ -35,7 +35,15 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function days_to_go($instance) {
-    return 6;
+    date_default_timezone_set('Europe/London');
+    $startDate = time();
+    $endDate = strtotime('2012-03-10');
+    if ($endDate < $startDate)
+    {
+      return 0;
+    }
+    $numDays = intval(date('d', $endDate - $startDate));
+    return $numDays;
   }
 
   public function widget( $args, $instance ) {
