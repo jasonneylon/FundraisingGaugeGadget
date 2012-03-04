@@ -75,10 +75,10 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #gauge
       {
         position: relative;
-        left: -10px;
+        left: 0px;
         height: 190px;
         overflow: hidden;
-        width: 70px;
+        width: 100px;
         z-index: 100;
         margin-top: -10px;
         margin-bottom: 8px;
