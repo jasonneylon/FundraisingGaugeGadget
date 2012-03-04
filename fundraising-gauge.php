@@ -120,7 +120,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         position: absolute;
         text-align: center;
         width: 70px;
-        top: 65px;
+        top: 80px;
         z-index: 102;
       }
 
@@ -131,7 +131,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </style>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-       var barHeight = 180;
+       var barHeight = 190;
        var percentage = <?php echo $this->percentage_raised($instance); ?>;
        var raisedHeight = (barHeight * percentage) / 100;
        var percentageText = percentage + "%";
