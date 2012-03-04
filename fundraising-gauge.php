@@ -49,8 +49,9 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   ?>
     <style>
       .figures { padding: 6px 0 15px 26px ;} 
-      .num { font-weight: bold; font-size: 24px; }
+      .num { font-weight: bold; font-size: 24px; padding-top: 20px; }
       .apply {
+        clear: both;
         background: url(<?php echo plugins_url( 'images/back-submit.png', __FILE__ ); ?>) no-repeat;
         text-align: center;
         width: 220px;
@@ -60,6 +61,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         cursor: pointer;
         margin-top: 10px;
       }
+
       #investmentgauge .apply a {
         color: white;
         font-size: 18px;
@@ -70,22 +72,35 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #investmentgauge .apply a:focus {color: white;}
       #investmentgauge .apply a:active {color: white;}
 
+      #gauge
+      {
+        position: relative;
+        left: -10px;
+        height: 190px;
+        overflow: hidden;
+        width: 70px;
+        z-index: 100;
+        margin-top: -10px;
+        margin-bottom: 8px;
+        float: left;
+      }
+
       #bar {
-        background: transparent url(<?php echo plugins_url( 'images/Thermometer.png', __FILE__ ); ?>) no-repeat 0 0;
-        height: 150px;
+        background: transparent url(<?php echo plugins_url( 'images/battery.png', __FILE__ ); ?>) no-repeat 0 0;
+        height: 190px;
         left: 15px;
         top: 15px;
         overflow: hidden;
-        width: 150px;
+        width: 80px;
         z-index: 110;
       }
 
       #bar span
       {
-        background: transparent url(<?php echo plugins_url( 'images/Thermometer-overlay.png', __FILE__ ); ?>) no-repeat left bottom;
+        background: transparent url(<?php echo plugins_url( 'images/battery-overlay.png', __FILE__ ); ?>) no-repeat left bottom;
         background-position: left bottom!important;
         background-repeat: no-repeat;
-        bottom: 29px;
+        bottom: 0px;
         display: block;
         font-style: normal;
         height: 0;
@@ -94,45 +109,32 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         overflow: hidden;
         position: absolute;
         text-indent: -9999em;
-        width: 150px;
+        width: 110px;
       }
 
       #bar strong
       {
-        color: white;
-        font-size: 3em;
+        color: black;
+        font-size: 1.8em;
         left: 0;
         position: absolute;
         text-align: center;
-        width: 122px;
-        top: 45px;
+        width: 70px;
+        top: 65px;
         z-index: 102;
       }
 
-      #gauge
+      .metric 
       {
-        position: relative;
-        left: -10px;
-        height: 150px;
-        overflow: hidden;
-        width: 150px;
-        z-index: 100;
-        margin-top: -10px;
-        margin-bottom: 8px;
+        padding-top: 8px;
       }
-
     </style>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-       var barHeight = 150;
-
+       var barHeight = 180;
        var percentage = <?php echo $this->percentage_raised($instance); ?>;
-
        var raisedHeight = (barHeight * percentage) / 100;
-       // alert(raisedHeight);
        var percentageText = percentage + "%";
-       // alert(percentageText);
-
 
       options = {
         duration: 1500, 
@@ -142,8 +144,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       }
 
        jQuery("#bar span").animate({ height: raisedHeight}, options);
-      // jQuery("#bar span").height(raisedHeight);
-      // jQuery("#bar em").text(percentageText);
      });
     </script>
     <li class="widget" id="investmentgauge">
@@ -151,43 +151,45 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
       <div class="figures">
-        <div id="gauge" style="border: solid 1px red">
+        <div id="gauge">
           <div id="bar" >
             <span></span>
             <strong>
               <em>
                 <?php
-                echo 0; //$this->percentage_raised($instance); 
+                $this->percentage_raised($instance); 
                 ?>%
               </em>
             </strong>
           </div>
         </div>
-        <div>
-          <span class="num">
-          <?php
-          echo $this->days_to_go($instance); 
-          ?> 
-        </div>
-        <div>
-          days to go
-        </div>
-        <div>
-          <span class="num">
-          <?php
-          echo $this->money_raised($instance); 
-          ?> 
-        </div>
-        <div class="totalneeded">pledged of our £75,000 goal</div>
-        <div>
-          <span class="num">
-          <?php
-          echo $this->investors($instance); 
-          ?>
-        </span>
-         </div>
-         <div>
-          investors
+        <div class="numbers">
+          <div class="metric">
+            <span class="num">
+            <?php
+            echo $this->days_to_go($instance); 
+            ?> 
+          </div>
+          <div>
+            days to go
+          </div>
+          <div class="metric">
+            <span class="num">
+            <?php
+            echo $this->money_raised($instance); 
+            ?> 
+          </div>
+          <div class="totalneeded">pledged of our<br/> £75,000 goal</div>
+          <div class="metric">
+            <span class="num">
+            <?php
+            echo $this->investors($instance); 
+            ?>
+          </span>
+           </div>
+           <div>
+            investors
+          </div>
         </div>
         <div class="apply"><a href="https://brixtonenergy.co.uk/shareoffer.php">Invest now</a></div>
       </div>
