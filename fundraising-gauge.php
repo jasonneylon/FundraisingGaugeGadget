@@ -167,11 +167,15 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           <div class="metric">
             <span class="num">
             <?php
-            echo $this->days_to_go($instance); 
+              $days = $this->days_to_go($instance);
+              echo (($days == 0) ? "Last" : $days); 
             ?> 
           </div>
           <div>
-            days to go
+            <?php
+              $days = $this->days_to_go($instance);
+              echo (($days == 0) ? "day" : "days to go"); 
+            ?> 
           </div>
           <div class="metric">
             <span class="num">
