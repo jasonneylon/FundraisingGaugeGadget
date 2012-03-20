@@ -20,8 +20,17 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   public function percentage_raised($instance) {
     $money_raised = intval($instance["money_raised"]);
-    $percentage = intval($money_raised / 75000 * 100);
+    $percentage = intval($money_raised / $this->target() * 100);
     return $percentage;
+  }
+
+  public function target() {
+    return 57000;
+  }
+
+  public function formattedTarget() {
+    $target = $this->target();
+    return "£" . number_format ($target);
   }
 
   public function money_raised($instance) {
@@ -33,15 +42,51 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     return intval($instance["investors"]);;
   }
 
+  function last_day($instance) {
+    $days = $this->days_to_go($instance);
+    return ($days == 0);
+  }
+
+  function day_text($instance) {
+    $days = $this->days_to_go($instance);
+    switch ($days) {
+      case 0:
+        return "day"; 
+        break;
+      case 1:
+        return "day to go";
+        break;
+      default:
+        return "days to go";
+        break;
+    }
+  }
+
+  function open($instance) {
+    return ($this->today() <= $this->deadline());
+  }
+
+  function deadline() {
+    return new DateTime('2012-03-19');
+  }
+
+  function today() {
+    $today = new DateTime();
+    return new DateTime($today->format('Y-m-d'));
+  }
+
   function days_to_go($instance) {
     date_default_timezone_set('Europe/London');
-    $startDate = time();
-    $endDate = strtotime('2012-03-10');
-    if ($endDate < $startDate)
-    {
-      return 0;
-    }
-    $numDays = intval(date('d', $endDate - $startDate));
+    $endDate = $this->deadline();;
+    $today = $this->today();
+    // echo ("startDate: ");
+    // echo ($startDate->format('Y-m-d H:i:s'));
+    // echo ("endDate: ");
+    // echo ($endDate->format('Y-m-d H:i:s'));
+    // $endDate = strtotime('2012-03-01');
+    // echo($endDate - $startDate);
+    // TODO: make this return the right number of days
+    $numDays = $today->diff($endDate)->days;
     return $numDays;
   }
 
@@ -62,15 +107,56 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         margin-top: 10px;
       }
 
+      .contact {
+        clear: both;
+        background: url(<?php echo plugins_url( 'images/back-submit.png', __FILE__ ); ?>) no-repeat;
+        text-align: center;
+        width: 220px;
+        height: 34px;
+        line-height: 34px;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      #investmentgauge .contact a {
+        color: white;
+        font-size: 14px;
+      }
+
+      .closed {
+        clear: both;
+        background: #66df4d;
+        color: black;
+        text-align: center;
+        width: 220px;
+        height: 34px;
+        line-height: 34px;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 20px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .finished { font-size: 16px; padding-top: 20px;}
+
       #investmentgauge .apply a {
         color: white;
         font-size: 18px;
       }
+
       #investmentgauge .apply a:link {color: white;}
       #investmentgauge .apply a:visited {color: white;}
       #investmentgauge .apply a:hover {color: white;}
       #investmentgauge .apply a:focus {color: white;}
       #investmentgauge .apply a:active {color: white;}
+
+      #investmentgauge .contact a:link {color: white;}
+      #investmentgauge .contact a:visited {color: white;}
+      #investmentgauge .contact a:hover {color: white;}
+      #investmentgauge .contact a:focus {color: white;}
+      #investmentgauge .contact a:active {color: white;}
 
       #gauge
       {
@@ -131,9 +217,10 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </style>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-       var barHeight = 190;
+       var barHeight = 170;
        var percentage = <?php echo $this->percentage_raised($instance); ?>;
        var raisedHeight = (barHeight * percentage) / 100;
+       console.log(raisedHeight);
        var percentageText = percentage + "%";
 
       options = {
@@ -151,6 +238,13 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
       <div class="figures">
+        <?php 
+          if (!$this->open($instance)) {
+        ?> 
+           <div class="closed">Thanks to all our investors!</div>
+        <?php
+          }
+        ?>
         <div id="gauge">
           <div id="bar" >
             <span></span>
@@ -164,26 +258,27 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           </div>
         </div>
         <div class="numbers">
-          <div class="metric">
-            <span class="num">
-            <?php
-              $days = $this->days_to_go($instance);
-              echo (($days == 0) ? "Last" : $days); 
-            ?> 
-          </div>
-          <div>
-            <?php
-              $days = $this->days_to_go($instance);
-              echo (($days == 0) ? "day" : "days to go"); 
-            ?> 
-          </div>
+          <?php if ($this->open($instance)) { ?>
+            <div class="metric">
+              <span class="num">
+              <?php
+                echo ($this->last_day($instance) ? "Last" : $this->days_to_go($instance)); 
+              ?> 
+            </div>
+            <div>
+              <?php
+                echo ($this->day_text($instance)); 
+              ?> 
+           </div>
+          <?php } ?>
           <div class="metric">
             <span class="num">
             <?php
             echo $this->money_raised($instance); 
             ?> 
           </div>
-          <div class="totalneeded">pledged of our<br/> £75,000 goal</div>
+          <div class="totalneeded">raised of our<br/> 
+          <?php echo ($this->formattedTarget()); ?> goal</div>
           <div class="metric">
             <span class="num">
             <?php
@@ -194,8 +289,30 @@ class Fundraising_Gauge_Widget extends WP_Widget {
            <div>
             investors
           </div>
+          <?php if (!$this->open($instance)) { ?>
+            <div class="metric">
+              <span class="finished">
+                Our share offer closed on <br/>
+                <strong><?php echo($this->deadline()->format("d/m/y")); ?></strong>
+              </span>
+           </div>
+          <?php } ?>
         </div>
-        <div class="apply"><a href="https://brixtonenergy.co.uk/shareoffer.php">Invest now</a></div>
+        <?php 
+          if ($this->open($instance)) {
+        ?> 
+          <div class="apply"><a href="https://brixtonenergy.co.uk/shareoffer.php">Invest now</a></div>
+        <?php 
+          }
+          else {
+        ?>
+          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Contact me about the next offer</a></div>
+<!--           <div class="closed">Thanks to all our investors!</div>
+          <div class="closed"><a href="https://brixtonenergy.co.uk/contact-2/">Let me know about the next one</a></div>
+ -->
+        <?php
+          }
+        ?> 
       </div>
     <li>
   <?php
