@@ -79,13 +79,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     date_default_timezone_set('Europe/London');
     $endDate = $this->deadline();;
     $today = $this->today();
-    // echo ("startDate: ");
-    // echo ($startDate->format('Y-m-d H:i:s'));
-    // echo ("endDate: ");
-    // echo ($endDate->format('Y-m-d H:i:s'));
-    // $endDate = strtotime('2012-03-01');
-    // echo($endDate - $startDate);
-    // TODO: make this return the right number of days
     $numDays = $today->diff($endDate)->days;
     return $numDays;
   }
@@ -133,7 +126,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         height: 34px;
         line-height: 34px;
         border: none;
-        cursor: pointer;
         margin-bottom: 20px;
         font-size: 16px;
         font-weight: bold;
@@ -217,20 +209,22 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </style>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-       var barHeight = 170;
+       var barHeight = 135;
+       var paddingBottom = 25;
        var percentage = <?php echo $this->percentage_raised($instance); ?>;
-       var raisedHeight = (barHeight * percentage) / 100;
-       console.log(raisedHeight);
+       var raisedHeight = ((barHeight * percentage) / 100) + paddingBottom;
        var percentageText = percentage + "%";
 
       options = {
         duration: 1500, 
         step: function(now) { 
-          var currentPercentage = Math.floor((now / barHeight) * 100);
+          var currentPercentage = Math.floor(((now - paddingBottom) / barHeight) * 100);
+          if (currentPercentage < 0) {
+            currentPercentage = 0;
+          }
           jQuery("#bar em").text(currentPercentage + "%"); } 
       }
-
-       jQuery("#bar span").animate({ height: raisedHeight}, options);
+       jQuery("#bar span").animate({ height: raisedHeight }, options);
      });
     </script>
     <li class="widget" id="investmentgauge">
@@ -293,7 +287,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
             <div class="metric">
               <span class="finished">
                 Our share offer closed on <br/>
-                <strong><?php echo($this->deadline()->format("d/m/y")); ?></strong>
+                <strong><?php echo($this->deadline()->format("d/m/Y")); ?></strong>
               </span>
            </div>
           <?php } ?>
@@ -307,9 +301,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           else {
         ?>
           <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Contact me about the next offer</a></div>
-<!--           <div class="closed">Thanks to all our investors!</div>
-          <div class="closed"><a href="https://brixtonenergy.co.uk/contact-2/">Let me know about the next one</a></div>
- -->
         <?php
           }
         ?> 
