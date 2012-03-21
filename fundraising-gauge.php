@@ -67,7 +67,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function deadline() {
-    return new DateTime('2012-03-19');
+    return new DateTime('2012-03-20');
   }
 
   function today() {
