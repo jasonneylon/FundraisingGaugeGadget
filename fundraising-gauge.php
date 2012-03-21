@@ -193,7 +193,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #bar strong
       {
         color: black;
-        font-size: 1.8em;
+        font-size: 1.7em;
         left: 0;
         position: absolute;
         text-align: center;
