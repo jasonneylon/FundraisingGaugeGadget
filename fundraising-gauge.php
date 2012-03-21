@@ -25,7 +25,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function target() {
-    return 57000;
+    return 56800;
   }
 
   public function formattedTarget() {
@@ -283,7 +283,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
            <div>
             investors
           </div>
-          <?php if (!$this->open($instance)) { ?>
+          <?php if (!$this->open($instance) && false) { ?>
             <div class="metric">
               <span class="finished">
                 Our share offer closed on <br/>
