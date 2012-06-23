@@ -67,7 +67,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function deadline() {
-    return new DateTime('2012-03-20');
+    return new DateTime('2012-09-20');
   }
 
   function today() {
@@ -178,7 +178,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         background: transparent url(<?php echo plugins_url( 'images/battery-overlay.png', __FILE__ ); ?>) no-repeat left bottom;
         background-position: left bottom!important;
         background-repeat: no-repeat;
-        bottom: 0px;
+        bottom: 4px;
         display: block;
         font-style: normal;
         height: 0;
@@ -193,7 +193,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #bar strong
       {
         color: black;
-        font-size: 1.7em;
+        font-size: 1.5em;
         left: 0;
         position: absolute;
         text-align: center;
@@ -235,7 +235,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <?php 
           if (!$this->open($instance)) {
         ?> 
-           <div class="closed">Thanks to all our investors!</div>
+           <div class="closed">Brixton Solar 1 is live!</div>
         <?php
           }
         ?>
@@ -300,7 +300,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           }
           else {
         ?>
-          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Contact me about the next offer</a></div>
+          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Interested in future projects?</a></div>
         <?php
           }
         ?> 
