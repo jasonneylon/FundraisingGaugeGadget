@@ -67,7 +67,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function deadline() {
-    return new DateTime('2012-09-20');
+    return new DateTime('2012-03-20');
   }
 
   function today() {
@@ -283,6 +283,12 @@ class Fundraising_Gauge_Widget extends WP_Widget {
            <div>
             investors
           </div>
+          <div class="metric">
+            <span class="finished">
+              Live date:<br/>
+              <strong>30 Mar 2012</strong>
+            </span>
+         </div>
           <?php if (!$this->open($instance) && false) { ?>
             <div class="metric">
               <span class="finished">
