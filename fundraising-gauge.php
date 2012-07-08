@@ -229,9 +229,9 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </script>
     <li class="widget" id="investmentgauge">
       <h2>
-        <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
+        <a href="#" rel="nofollow" class="sidebartitle">Keep in touch</a>
       </h2> 
-      <div class="figures">
+<!--       <div class="figures">
         <?php 
           if (!$this->open($instance)) {
         ?> 
@@ -311,7 +311,12 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           }
         ?> 
       </div>
-    <li>
+ -->    
+<div class="figures">
+    <div style="padding-right: 20px;">We are planning more exciting community solar projects in Brixton. If you are interested in investing or want to know more join our mailing list.</div> 
+   <div class="contact"><a id="signup" href="https://brixtonenergy.co.uk/contact-2/" onclick="window._gaq.push(['_trackEvent', 'Sidebar CTA', 'Click', '']);">Sign up!</a></div>
+ </div>
+ <li>
   <?php
   }
 
