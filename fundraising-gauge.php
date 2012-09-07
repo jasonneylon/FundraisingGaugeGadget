@@ -25,7 +25,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function target() {
-    return 56800;
+    return 61500;
   }
 
   public function formattedTarget() {
@@ -67,7 +67,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function deadline() {
-    return new DateTime('2012-03-20');
+    return new DateTime('2012-10-12');
   }
 
   function today() {
@@ -178,7 +178,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         background: transparent url(<?php echo plugins_url( 'images/battery-overlay.png', __FILE__ ); ?>) no-repeat left bottom;
         background-position: left bottom!important;
         background-repeat: no-repeat;
-        bottom: 4px;
+        bottom: 0px;
         display: block;
         font-style: normal;
         height: 0;
@@ -193,7 +193,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #bar strong
       {
         color: black;
-        font-size: 1.5em;
+        font-size: 1.7em;
         left: 0;
         position: absolute;
         text-align: center;
@@ -229,13 +229,13 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </script>
     <li class="widget" id="investmentgauge">
       <h2>
-        <a href="#" rel="nofollow" class="sidebartitle">Keep in touch</a>
+        <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
-<!--       <div class="figures">
+      <div class="figures">
         <?php 
           if (!$this->open($instance)) {
         ?> 
-           <div class="closed">Brixton Solar 1 is live!</div>
+           <div class="closed">Thanks to all our investors!</div>
         <?php
           }
         ?>
@@ -283,13 +283,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
            <div>
             investors
           </div>
-          <div class="metric">
-            <span class="finished">
-              Live date:<br/>
-              <strong>30 Mar 2012</strong>
-            </span>
-         </div>
-          <?php if (!$this->open($instance) && false) { ?>
+          <?php if (!$this->open($instance)) { ?>
             <div class="metric">
               <span class="finished">
                 Our share offer closed on <br/>
@@ -306,17 +300,12 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           }
           else {
         ?>
-          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Interested in future projects?</a></div>
+          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Contact me about the next offer</a></div>
         <?php
           }
         ?> 
       </div>
- -->    
-<div class="figures">
-    <div style="padding-right: 20px;">We are planning more exciting community solar projects in Brixton. If you are interested in investing or want to know more join our mailing list.</div> 
-   <div class="contact"><a id="signup" href="https://brixtonenergy.co.uk/contact-2/" onclick="window._gaq.push(['_trackEvent', 'Sidebar CTA', 'Click', '']);">Sign up!</a></div>
- </div>
- <li>
+    <li>
   <?php
   }
 
