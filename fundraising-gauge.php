@@ -88,13 +88,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     date_default_timezone_set('Europe/London');
     $endDate = $this->deadline();;
     $today = $this->today();
-    echo("<!--");
-    var_dump($today);
-    var_dump($endDate);
-    echo($today->format('Y-m-d'));
-    echo("-->");
-    //$numDays = $today->diff($endDate)->days;
-    //$numDays = 34;
     $numDays = $this->date_diff($today->format('Y-m-d'), $endDate->format('Y-m-d'));
     return $numDays;
   }
@@ -273,7 +266,8 @@ class Fundraising_Gauge_Widget extends WP_Widget {
               <span class="num">
               <?php
                 echo ($this->last_day($instance) ? "Last" : $this->days_to_go($instance)); 
-              ?> 
+              ?>
+              </span> 
             </div>
             <div>
               <?php
@@ -286,6 +280,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
             <?php
             echo $this->money_raised($instance); 
             ?> 
+            </span>
           </div>
           <div class="totalneeded">raised of our<br/> 
           <?php echo ($this->formattedTarget()); ?> goal</div>
@@ -294,7 +289,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
             <?php
             echo $this->investors($instance); 
             ?>
-          </span>
+            </span>
            </div>
            <div>
             investors
