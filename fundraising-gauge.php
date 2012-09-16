@@ -67,19 +67,35 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function deadline() {
+    date_default_timezone_set('Europe/London');
     return new DateTime('2012-10-12');
   }
 
   function today() {
+    date_default_timezone_set('Europe/London');
     $today = new DateTime();
     return new DateTime($today->format('Y-m-d'));
+  }
+
+  function date_diff($d1, $d2){
+      $d1 = (is_string($d1) ? strtotime($d1) : $d1);
+      $d2 = (is_string($d2) ? strtotime($d2) : $d2);  
+      $diff_secs = abs($d1 - $d2);
+      return floor($diff_secs / (3600 * 24));
   }
 
   function days_to_go($instance) {
     date_default_timezone_set('Europe/London');
     $endDate = $this->deadline();;
     $today = $this->today();
-    $numDays = $today->diff($endDate)->days;
+    echo("<!--");
+    var_dump($today);
+    var_dump($endDate);
+    echo($today->format('Y-m-d'));
+    echo("-->");
+    //$numDays = $today->diff($endDate)->days;
+    //$numDays = 34;
+    $numDays = $this->date_diff($today->format('Y-m-d'), $endDate->format('Y-m-d'));
     return $numDays;
   }
 
@@ -295,7 +311,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <?php 
           if ($this->open($instance)) {
         ?> 
-          <div class="apply"><a href="https://brixtonenergy.co.uk/shareoffer.php">Invest now</a></div>
+          <div class="apply"><a href="https://brixtonenergy.co.uk/invest/shareoffer2/">Invest now</a></div>
         <?php 
           }
           else {
