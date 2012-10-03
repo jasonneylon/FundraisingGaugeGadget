@@ -68,7 +68,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   function deadline() {
     date_default_timezone_set('Europe/London');
-    return new DateTime('2012-10-12');
+    return new DateTime('2012-10-23');
   }
 
   function today() {
