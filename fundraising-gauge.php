@@ -4,7 +4,7 @@ Plugin Name: Fundraising gauge
 Plugin URI: http://jasonneylon.wordpress.com
 Description: Show how much money you have raised 
 Author: Jason
-Version: 1
+Version: 1.1
 Author URI: http://jasonneylon.wordpress.com
 */
 
@@ -25,7 +25,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function target() {
-    return 61500;
+    return 60000;
   }
 
   public function formattedTarget() {
@@ -68,7 +68,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   function deadline() {
     date_default_timezone_set('Europe/London');
-    return new DateTime('2012-10-23');
+    return new DateTime('2012-11-16');
   }
 
   function today() {
@@ -163,7 +163,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       {
         position: relative;
         left: 0px;
-        height: 190px;
+        height: 187px;
         overflow: hidden;
         width: 100px;
         z-index: 100;
@@ -218,14 +218,14 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     </style>
     <script type="text/javascript">
     jQuery(document).ready(function() {
-       var barHeight = 135;
-       var paddingBottom = 25;
+       var barHeight = 138;
+       var paddingBottom = 23;
        var percentage = <?php echo $this->percentage_raised($instance); ?>;
        var raisedHeight = ((barHeight * percentage) / 100) + paddingBottom;
        var percentageText = percentage + "%";
 
       options = {
-        duration: 1500, 
+        duration: 500, 
         step: function(now) { 
           var currentPercentage = Math.floor(((now - paddingBottom) / barHeight) * 100);
           if (currentPercentage < 0) {
@@ -241,13 +241,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
       <div class="figures">
-        <?php 
-          if (!$this->open($instance)) {
-        ?> 
-           <div class="closed">Thanks to all our investors!</div>
-        <?php
-          }
-        ?>
         <div id="gauge">
           <div id="bar" >
             <span></span>
@@ -294,27 +287,8 @@ class Fundraising_Gauge_Widget extends WP_Widget {
            <div>
             investors
           </div>
-          <?php if (!$this->open($instance)) { ?>
-            <div class="metric">
-              <span class="finished">
-                Our share offer closed on <br/>
-                <strong><?php echo($this->deadline()->format("d/m/Y")); ?></strong>
-              </span>
-           </div>
-          <?php } ?>
         </div>
-        <?php 
-          if ($this->open($instance)) {
-        ?> 
           <div class="apply"><a href="https://brixtonenergy.co.uk/invest/shareoffer2/">Invest now</a></div>
-        <?php 
-          }
-          else {
-        ?>
-          <div class="contact"><a href="https://brixtonenergy.co.uk/contact-2/">Contact me about the next offer</a></div>
-        <?php
-          }
-        ?> 
       </div>
     <li>
   <?php
@@ -333,11 +307,11 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     ?>
     <p>
     <label for="<?php echo $this->get_field_id( 'money_raised' ); ?>"><?php _e( 'Money raised:' ); ?></label> 
-    <input class="widefat" id="<?php echo $this->get_field_id( 'money_raised' ); ?>" name="<?php echo $this->get_field_name( 'money_raised' ); ?>" type="text" value="<?php echo $money_raised; ?>" />
+    <input class="widefat" id="<?php echo $this->get_field_id( 'money_raised' ); ?>" name="<?php echo $this->get_field_name( 'money_raised' ); ?>" type="number" step="1" min="0" value="<?php echo $money_raised; ?>" />
     </p>
     <p>
     <label for="<?php echo $this->get_field_id( 'investors' ); ?>"><?php _e( 'Investors:' ); ?></label> 
-    <input class="widefat" id="<?php echo $this->get_field_id( 'investors' ); ?>" name="<?php echo $this->get_field_name( 'investors' ); ?>" type="text" value="<?php echo $investors; ?>" />
+    <input class="widefat" id="<?php echo $this->get_field_id( 'investors' ); ?>" name="<?php echo $this->get_field_name( 'investors' ); ?>" type="number" step="1" min="0" value="<?php echo $investors; ?>" />
     </p>
     <?php 
   }
