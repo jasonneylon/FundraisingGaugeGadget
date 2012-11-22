@@ -225,7 +225,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
        var percentageText = percentage + "%";
 
       options = {
-        duration: 500, 
+        duration: 1500, 
         step: function(now) { 
           var currentPercentage = Math.floor(((now - paddingBottom) / barHeight) * 100);
           if (currentPercentage < 0) {
