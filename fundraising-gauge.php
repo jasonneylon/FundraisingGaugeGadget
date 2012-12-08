@@ -62,7 +62,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     }
   }
 
-  function open($instance) {
+  function before_deadline($instance) {
     return ($this->today() <= $this->deadline());
   }
 
@@ -93,6 +93,10 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function widget( $args, $instance ) {
+    extract($args, EXTR_SKIP);
+
+    $closed = checked($instance['closed'], "on");
+
   ?>
     <style>
       .figures { padding: 6px 0 15px 26px ;} 
@@ -241,6 +245,13 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
       <div class="figures">
+        <?php 
+          if ($closed) {
+        ?> 
+           <div class="closed">Thanks to all our investors!</div>
+        <?php
+          }
+        ?>
         <div id="gauge">
           <div id="bar" >
             <span></span>
@@ -254,7 +265,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
           </div>
         </div>
         <div class="numbers">
-          <?php if ($this->open($instance)) { ?>
+          <?php if ($this->before_deadline($instance)) { ?>
             <div class="metric">
               <span class="num">
               <?php
@@ -288,31 +299,41 @@ class Fundraising_Gauge_Widget extends WP_Widget {
             investors
           </div>
         </div>
-          <div class="apply"><a href="https://brixtonenergy.co.uk/invest/shareoffer2/">Invest now</a></div>
+          <div class="apply"><a href="<?php echo $instance['button_link'] ?>"><?php echo $instance['button_text'] ?></a></div>
       </div>
     <li>
   <?php
   }
 
   public function form( $instance ) {
-    if ( $instance ) {
-      $money_raised = $instance[ 'money_raised' ] ;
-      $investors = $instance[ 'investors' ] ;
-    }
-    else {
-      $money_raised = 0;
-      $investors = 0;
-    }
-
+    $instance = wp_parse_args( (array) $instance, array( 'closed' => '', 'money_raised' => 0, 'investors' => 0, 'button_text' => "Invest now", 'button_link' => '/invest/shareoffer2/' ));
+    $money_raised = $instance[ 'money_raised' ] ;
+    $investors = $instance[ 'investors' ] ;
+    $button_text = $instance['button_text'];
+    $button_link = $instance['button_link'];
+    
     ?>
+    <?php echo $instance[ 'closed' ]; ?>
     <p>
-    <label for="<?php echo $this->get_field_id( 'money_raised' ); ?>"><?php _e( 'Money raised:' ); ?></label> 
-    <input class="widefat" id="<?php echo $this->get_field_id( 'money_raised' ); ?>" name="<?php echo $this->get_field_name( 'money_raised' ); ?>" type="number" step="1" min="0" value="<?php echo $money_raised; ?>" />
+      <label for="<?php echo $this->get_field_id( 'money_raised' ); ?>"><?php _e( 'Money raised:' ); ?></label> 
+      <input class="widefat" id="<?php echo $this->get_field_id( 'money_raised' ); ?>" name="<?php echo $this->get_field_name( 'money_raised' ); ?>" type="number" step="1" min="0" value="<?php echo $money_raised; ?>" />
     </p>
     <p>
-    <label for="<?php echo $this->get_field_id( 'investors' ); ?>"><?php _e( 'Investors:' ); ?></label> 
-    <input class="widefat" id="<?php echo $this->get_field_id( 'investors' ); ?>" name="<?php echo $this->get_field_name( 'investors' ); ?>" type="number" step="1" min="0" value="<?php echo $investors; ?>" />
+      <label for="<?php echo $this->get_field_id( 'investors' ); ?>"><?php _e( 'Investors:' ); ?></label> 
+      <input class="widefat" id="<?php echo $this->get_field_id( 'investors' ); ?>" name="<?php echo $this->get_field_name( 'investors' ); ?>" type="number" step="1" min="0" value="<?php echo $investors; ?>" />
+      </p>
+    <p>
+      <input class="checkbox" type="checkbox" <?php checked($instance['closed'], "on") ?> id="<?php echo $this->get_field_id('closed'); ?>" name="<?php echo $this->get_field_name('closed'); ?>" />
+      <label for="<?php echo $this->get_field_id('closed'); ?>"><?php _e('Close fundraising'); ?></label><br />
     </p>
+    <p>
+      <label for="<?php echo $this->get_field_id('button_text'); ?>"><?php _e('Button text:'); ?> 
+      <input class="widefat" id="<?php echo $this->get_field_id('button_text'); ?>" name="<?php echo $this->get_field_name('button_text'); ?>" type="text" value="<?php echo esc_attr($button_text); ?>" /></label>
+    </p>    
+    <p>
+      <label for="<?php echo $this->get_field_id('button_link'); ?>"><?php _e('Button link:'); ?> 
+      <input class="widefat" id="<?php echo $this->get_field_id('button_link'); ?>" name="<?php echo $this->get_field_name('button_link'); ?>" type="text" value="<?php echo esc_attr($button_link); ?>" /></label>
+    </p>    
     <?php 
   }
 
