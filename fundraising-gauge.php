@@ -25,7 +25,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function target() {
-    return 60000;
+    return 67000;
   }
 
   public function formattedTarget() {
@@ -68,7 +68,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   function deadline() {
     date_default_timezone_set('Europe/London');
-    return new DateTime('2012-11-16');
+    return new DateTime('2013-07-14');
   }
 
   function today() {
@@ -94,9 +94,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   public function widget( $args, $instance ) {
     extract($args, EXTR_SKIP);
-
-    $closed = checked($instance['closed'], "on");
-
   ?>
     <style>
       .figures { padding: 6px 0 15px 26px ;} 
@@ -245,14 +242,14 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
       </h2> 
       <div class="figures">
-        <?php 
-          if ($closed) {
+<!--         <?php 
+          if ($instance['closed'] = 'on') {
         ?> 
            <div class="closed">Thanks to all our investors!</div>
         <?php
           }
         ?>
-        <div id="gauge">
+ -->        <div id="gauge">
           <div id="bar" >
             <span></span>
             <strong>
@@ -313,7 +310,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     $button_link = $instance['button_link'];
     
     ?>
-    <?php echo $instance[ 'closed' ]; ?>
     <p>
       <label for="<?php echo $this->get_field_id( 'money_raised' ); ?>"><?php _e( 'Money raised:' ); ?></label> 
       <input class="widefat" id="<?php echo $this->get_field_id( 'money_raised' ); ?>" name="<?php echo $this->get_field_name( 'money_raised' ); ?>" type="number" step="1" min="0" value="<?php echo $money_raised; ?>" />
