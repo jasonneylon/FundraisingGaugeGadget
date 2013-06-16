@@ -94,9 +94,10 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   public function widget( $args, $instance ) {
     extract($args, EXTR_SKIP);
-  ?>
+    $title = apply_filters( 'widget_title', "Investment raised");
+    ?>
     <style>
-      .figures { padding: 6px 0 5px 1px ;} 
+      .figures { padding: 6px 26px 15px 26px ;} 
       .num { font-weight: bold; font-size: 24px; padding-top: 20px; }
       .apply {
         clear: both;
@@ -108,23 +109,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         border: none;
         cursor: pointer;
         margin-top: 10px;
-      }
-
-      .contact {
-        clear: both;
-        background: url(<?php echo plugins_url( 'images/back-submit.png', __FILE__ ); ?>) no-repeat;
-        text-align: center;
-        width: 220px;
-        height: 34px;
-        line-height: 34px;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
-      }
-
-      #investmentgauge .contact a {
-        color: white;
-        font-size: 14px;
       }
 
       .closed {
@@ -154,12 +138,6 @@ class Fundraising_Gauge_Widget extends WP_Widget {
       #investmentgauge .apply a:focus {color: white;}
       #investmentgauge .apply a:active {color: white;}
 
-      #investmentgauge .contact a:link {color: white;}
-      #investmentgauge .contact a:visited {color: white;}
-      #investmentgauge .contact a:hover {color: white;}
-      #investmentgauge .contact a:focus {color: white;}
-      #investmentgauge .contact a:active {color: white;}
-
       #gauge
       {
         position: relative;
@@ -168,7 +146,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         overflow: hidden;
         width: 100px;
         z-index: 100;
-        margin-top: 25px;
+        margin-top: 5px;
         margin-bottom: 8px;
         float: left;
       }
@@ -238,11 +216,13 @@ class Fundraising_Gauge_Widget extends WP_Widget {
      });
     </script>
 
-    <aside class="widget" id="investmentgauge">
-      <h3 class="widget-title">
-        Investment raised
-      </h3> 
-      <div class="figures">
+    <?php
+      echo $before_widget;
+      if ( ! empty( $title ) )
+        echo $before_title . $title . $after_title;
+    ?>
+
+      <div class="figures" id="investmentgauge">
 <!--         <?php 
           if ($instance['closed'] = 'on') {
         ?> 
@@ -299,8 +279,8 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         </div>
           <div class="apply"><a href="<?php echo $instance['button_link'] ?>"><?php echo $instance['button_text'] ?></a></div>
       </div>
-    </aside>
   <?php
+      echo $after_widget;
   }
 
   public function form( $instance ) {
