@@ -20,16 +20,16 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   public function percentage_raised($instance) {
     $money_raised = intval($instance["money_raised"]);
-    $percentage = intval($money_raised / $this->target() * 100);
+    $percentage = intval($money_raised / $this->target($instance) * 100);
     return $percentage;
   }
 
-  public function target() {
-    return 67000;
+  public function target($instance) {
+    return intval($instance["target"]);;
   }
 
-  public function formattedTarget() {
-    $target = $this->target();
+  public function formattedTarget($instance) {
+    $target = $this->target($instance);
     return "£" . number_format ($target);
   }
 
@@ -63,12 +63,12 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   function before_deadline($instance) {
-    return ($this->today() <= $this->deadline());
+    return ($this->today() <= $this->deadline($instance));
   }
 
-  function deadline() {
+  function deadline($instance) {
     date_default_timezone_set('Europe/London');
-    return new DateTime('2013-07-14');
+    return new DateTime($instance["deadline"]);
   }
 
   function today() {
@@ -86,7 +86,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
 
   function days_to_go($instance) {
     date_default_timezone_set('Europe/London');
-    $endDate = $this->deadline();;
+    $endDate = $this->deadline($instance);;
     $today = $this->today();
     $numDays = $this->date_diff($today->format('Y-m-d'), $endDate->format('Y-m-d'));
     return $numDays;
@@ -265,7 +265,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
             </span>
           </div>
           <div class="totalneeded">raised of our<br/> 
-          <?php echo ($this->formattedTarget()); ?> goal</div>
+          <?php echo ($this->formattedTarget($instance)); ?> goal</div>
           <div class="metric">
             <span class="num">
             <?php
@@ -284,9 +284,11 @@ class Fundraising_Gauge_Widget extends WP_Widget {
   }
 
   public function form( $instance ) {
-    $instance = wp_parse_args( (array) $instance, array( 'closed' => '', 'money_raised' => 0, 'investors' => 0, 'button_text' => "Invest now", 'button_link' => '/invest/shareoffer2/' ));
-    $money_raised = $instance[ 'money_raised' ] ;
-    $investors = $instance[ 'investors' ] ;
+    $instance = wp_parse_args( (array) $instance, array( 'closed' => '', 'money_raised' => 0, 'investors' => 0, "deadline" => "2014-12-31",  'target' => 10000, 'button_text' => "Invest now", 'button_link' => '/invest/shareoffer2/' ));
+    $money_raised = $instance['money_raised'] ;
+    $investors = $instance['investors'] ;
+    $deadline = $instance['deadline'];
+    $target = $instance['target'];
     $button_text = $instance['button_text'];
     $button_link = $instance['button_link'];
     
@@ -298,7 +300,15 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     <p>
       <label for="<?php echo $this->get_field_id( 'investors' ); ?>"><?php _e( 'Investors:' ); ?></label> 
       <input class="widefat" id="<?php echo $this->get_field_id( 'investors' ); ?>" name="<?php echo $this->get_field_name( 'investors' ); ?>" type="number" step="1" min="0" value="<?php echo $investors; ?>" />
-      </p>
+    </p>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'target' ); ?>"><?php _e( 'Target:' ); ?></label> 
+      <input class="widefat" id="<?php echo $this->get_field_id( 'target' ); ?>" name="<?php echo $this->get_field_name( 'target' ); ?>" type="number" step="1" min="0" value="<?php echo $target; ?>" />
+    </p>
+    <p>
+      <label for="<?php echo $this->get_field_id( 'deadline' ); ?>"><?php _e( 'Deadline:' ); ?></label> 
+      <input class="widefat" id="<?php echo $this->get_field_id( 'deadline' ); ?>" name="<?php echo $this->get_field_name( 'deadline' ); ?>" type="date" step="1" min="0" value="<?php echo $deadline; ?>" />
+    </p>
     <p>
       <input class="checkbox" type="checkbox" <?php checked($instance['closed'], "on") ?> id="<?php echo $this->get_field_id('closed'); ?>" name="<?php echo $this->get_field_name('closed'); ?>" />
       <label for="<?php echo $this->get_field_id('closed'); ?>"><?php _e('Close fundraising'); ?></label><br />
