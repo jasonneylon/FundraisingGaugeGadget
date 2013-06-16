@@ -96,7 +96,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
     extract($args, EXTR_SKIP);
   ?>
     <style>
-      .figures { padding: 6px 0 15px 26px ;} 
+      .figures { padding: 6px 0 5px 1px ;} 
       .num { font-weight: bold; font-size: 24px; padding-top: 20px; }
       .apply {
         clear: both;
@@ -168,7 +168,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         overflow: hidden;
         width: 100px;
         z-index: 100;
-        margin-top: -10px;
+        margin-top: 25px;
         margin-bottom: 8px;
         float: left;
       }
@@ -237,10 +237,11 @@ class Fundraising_Gauge_Widget extends WP_Widget {
        jQuery("#bar span").animate({ height: raisedHeight }, options);
      });
     </script>
-    <li class="widget" id="investmentgauge">
-      <h2>
-        <a href="#" rel="nofollow" class="sidebartitle">Investment raised</a>
-      </h2> 
+
+    <aside class="widget" id="investmentgauge">
+      <h3 class="widget-title">
+        Investment raised
+      </h3> 
       <div class="figures">
 <!--         <?php 
           if ($instance['closed'] = 'on') {
@@ -298,7 +299,7 @@ class Fundraising_Gauge_Widget extends WP_Widget {
         </div>
           <div class="apply"><a href="<?php echo $instance['button_link'] ?>"><?php echo $instance['button_text'] ?></a></div>
       </div>
-    <li>
+    </aside>
   <?php
   }
 
